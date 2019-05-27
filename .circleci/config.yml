@@ -30,7 +30,7 @@ jobs:
   build:
     executor: alpine
     steps:
-      - run: apk add ca-certificates 
+      - run: apk add ca-certificates curl
       - checkout
       - attach_workspace:
           at: ~/workspace
@@ -39,7 +39,7 @@ jobs:
           command: |
             mkdir ~/package
             export PATH=~/workspace/tools/bin:$PATH
-            build_index core $(VERSION) > ~/package/core.txt
+            build_index core $VERSION > ~/package/core.txt
             ghr $GHR_FLAGS -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ~/package
 
 workflows:
