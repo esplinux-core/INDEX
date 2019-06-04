@@ -6,10 +6,11 @@ executors:
       - image: esplinux/bootstrap
     working_directory: ~/
     environment:
-      VERSION: "bootstrap"
+      VERSION: "0.01"
       ESPBUILD_VERSION: "0.01"
       GHR_VERSION: "v0.12.1"
 
+jobs:
   build:
     executor: esp-bootstrap
     steps:
