@@ -14,12 +14,11 @@ jobs:
   build:
     executor: esp-bootstrap
     steps:
-      - run: esp add ca-certificates zlib openssl curl espbuild ghr
-      - attach_workspace:
-          at: ~/workspace
       - run:
           name: Build
+          shell: /bin/sh -e
           command: |
+            esp add ca-certificates zlib openssl curl espbuild ghr
             mkdir -p ~/package
             build_index core $VERSION > ~/package/INDEX.txt
             ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ~/package
