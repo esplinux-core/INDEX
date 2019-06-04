@@ -7,8 +7,6 @@ executors:
     working_directory: ~/
     environment:
       VERSION: "0.01"
-      ESPBUILD_VERSION: "0.01"
-      GHR_VERSION: "v0.12.1"
 
 jobs:
   build:
@@ -18,9 +16,12 @@ jobs:
           name: Build
           shell: /bin/sh -e
           command: |
+            pwd
+            export
             esp add ca-certificates zlib openssl curl espbuild ghr
             mkdir -p ~/package
             build_index core $VERSION > ~/package/INDEX.txt
+            cat ~/package/INDEX.txt
             ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ~/package
 
 workflows:
