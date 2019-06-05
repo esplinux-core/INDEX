@@ -20,7 +20,7 @@ jobs:
             export
             esp add ca-certificates zlib openssl curl espbuild ghr
             mkdir -p ~/package
-            /bin/sh -x build_index core $VERSION > ~/package/INDEX.txt
+            /bin/sh -x /bin/build_index core $VERSION > ~/package/INDEX.txt
             cat ~/package/INDEX.txt
             ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ~/package
 
