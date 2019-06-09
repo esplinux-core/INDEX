@@ -1,38 +1,26 @@
 version: 2.1
 
-executors:
-  esp-bootstrap:
-    docker:
-      - image: esplinux/bootstrap
-    working_directory: ~/
-    environment:
-      VERSION: "bootstrap"
-
 jobs:
   build:
-    executor: esp-bootstrap
+    docker:
+      - image: alpine:3.9
+    environment:
+      VERSION: "bootstrap"
+      ESPBUILD_VERSION: "0.01"
+      GHR_VERSION: "v0.12.1"
     steps:
+      - checkout
+      - run: apk add ca-certificates curl go git build-base
       - run:
           name: Build
-          shell: /bin/sh -e
           command: |
-            pwd
-            export
-            #esp add ca-certificates zlib openssl curl espbuild ghr
-            tcurl -LO https://github.com/esplinux-core/zlib/releases/download/bootstrap/zlib-1.2.11.tar.gz
-            tar xf zlib-1.2.11.tar.gz
-            tcurl -LO https://github.com/esplinux-core/openssl/releases/download/bootstrap/openssl-1.1.1c.tar.gz
-            tar xf openssl-1.1.1c.tar.gz
-            tcurl -LO https://github.com/esplinux-core/curl/releases/download/bootstrap/curl-7.65.1.tar.gz
-            tar xf curl-7.65.1.tar.gz
-            tcurl -LO https://github.com/esplinux-core/espbuild/releases/download/bootstrap/espbuild-0.00.tar.gz
-            tar xf espbuild-0.00.tar.gz
-            tcurl -LO https://github.com/esplinux-core/ghr/releases/download/bootstrap/ghr-0.12.1.tar.gz
-            tar xf ghr-0.12.1.tar.gz
-            mkdir -p ~/package
-            /bin/sh -x /bin/build_index core $VERSION > ~/package/INDEX.txt
-            cat ~/package/INDEX.txt
-            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ~/package
+            curl -LO https://github.com/esplinux/espbuild/releases/download/$ESPBUILD_VERSION/espbuild-static.tar.gz
+            tar xf espbuild-static.tar.gz
+            mkdir /package
+            bin/build_index core $VERSION > /package/INDEX.txt
+            go mod init .
+            go get github.com/tcnksm/ghr@$GHR_VERSION
+            ~/go/bin/ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /package
 
 workflows:
   build:
