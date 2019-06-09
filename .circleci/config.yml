@@ -24,7 +24,7 @@ jobs:
             tcurl -LO https://github.com/esplinux-core/openssl/releases/download/bootstrap/openssl-1.1.1c.tar.gz
             tar xf openssl-1.1.1c.tar.gz
             tcurl -LO https://github.com/esplinux-core/curl/releases/download/bootstrap/curl-7.65.0.tar.gz
-            tar xf curl-7.65.0.tar.gz
+            tar xf curl-7.65.1.tar.gz
             tcurl -LO https://github.com/esplinux-core/espbuild/releases/download/bootstrap/espbuild-0.00.tar.gz
             tar xf espbuild-0.00.tar.gz
             tcurl -LO https://github.com/esplinux-core/ghr/releases/download/bootstrap/ghr-0.12.1.tar.gz
