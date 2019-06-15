@@ -1,16 +1,12 @@
-version: 2.1
+version: 2
 
-executors:
-  esp-bootstrap:
+jobs:
+  build:
     docker:
       - image: esplinux/bootstrap
     working_directory: ~/
     environment:
       VERSION: "0.01"
-
-jobs:
-  build:
-    executor: esp-bootstrap
     steps:
       - run:
           name: Build
@@ -33,8 +29,3 @@ jobs:
             /bin/sh -x /bin/build_index core $VERSION > ~/package/INDEX.txt
             cat ~/package/INDEX.txt
             ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ~/package
-
-workflows:
-  build:
-    jobs:
-      - build
