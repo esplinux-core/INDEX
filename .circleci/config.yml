@@ -12,8 +12,6 @@ jobs:
           name: Build
           shell: /bin/sh -e
           command: |
-            pwd
-            export
             #esp add ca-certificates zlib openssl curl espbuild ghr
             tcurl -LO https://github.com/esplinux-core/zlib/releases/download/bootstrap/zlib-1.2.11.tar.gz
             tar xf zlib-1.2.11.tar.gz
